@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+@import "./styles/rose-pine-pine.css";
+
+:root {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+  
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  padding-bottom: 80px; /* Account for fixed bottom button */
+}
+
+#app {
+  min-height: calc(100vh - 80px); /* Account for navbar height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Sticky navbar styling */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Smooth transitions for interactive elements */
+button, a {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Tab button styling */
+.tab-button {
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+
+.active {
+  /* background-color: var(--rose-pine-gold);
+   */
+  @apply bg-rose-pine-gold text-rose-pine-base;
+}
+
+/* Content fade-in animation */
+#app > div {
+  animation: fadeIn 0.1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* QR Scanner specific styling */
+#qr-reader {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+#qr-reader video {
+  border-radius: 0.5rem;
+  width: 100% !important;
+  height: auto !important;
+  max-width: none !important;
+}
+
+#qr-reader canvas {
+  border-radius: 0.5rem;
+}
+
+/* QR scanner controls */
+#qr-reader select {
+  @apply bg-rose-pine-surface text-rose-pine-text border border-rose-pine-muted rounded-md p-2 m-2;
+}
+
+#qr-reader button:hover {
+  opacity: 0.8;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 640px) {
+  #qr-reader {
+    min-height: 350px !important;
+  }
+  
+  #qr-reader video {
+    object-fit: cover;
+  }
+}
+
+@media (min-width: 641px) {
+  #qr-reader {
+    min-height: 450px !important;
+  }
+}
+/* #next-qr-btn {
+  background-color: rgb(var(--rose-pine-gold));
+  color: rgb(var(--rose-pine-base));
+  border: none;
+}
+
+#next-qr-btn:enabled:hover {
+  opacity: 0.8;
+}
+
+#next-qr-btn:disabled {
+  background-color: rgb(var(--rose-pine-base));
+  color: rgb(var(--rose-pine-subtle));
+  border: 1px solid rgb(var(--rose-pine-muted));
+} */

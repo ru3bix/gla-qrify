@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#f6c177">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="240" fill="#191724" stroke="#f6c177" stroke-width="32"/>
+  
+  <!-- QR Code representation -->
+  <g fill="#f6c177">
+    <!-- Corner squares -->
+    <rect x="120" y="120" width="80" height="80" rx="8"/>
+    <rect x="312" y="120" width="80" height="80" rx="8"/>
+    <rect x="120" y="312" width="80" height="80" rx="8"/>
+    
+    <!-- Inner corner squares -->
+    <rect x="140" y="140" width="40" height="40" rx="4" fill="#191724"/>
+    <rect x="332" y="140" width="40" height="40" rx="4" fill="#191724"/>
+    <rect x="140" y="332" width="40" height="40" rx="4" fill="#191724"/>
+    
+    <!-- Data pattern -->
+    <rect x="220" y="130" width="16" height="16"/>
+    <rect x="250" y="130" width="16" height="16"/>
+    <rect x="280" y="130" width="16" height="16"/>
+    
+    <rect x="220" y="160" width="16" height="16"/>
+    <rect x="280" y="160" width="16" height="16"/>
+    
+    <rect x="220" y="190" width="16" height="16"/>
+    <rect x="250" y="190" width="16" height="16"/>
+    
+    <rect x="130" y="220" width="16" height="16"/>
+    <rect x="160" y="220" width="16" height="16"/>
+    <rect x="220" y="220" width="16" height="16"/>
+    <rect x="280" y="220" width="16" height="16"/>
+    <rect x="320" y="220" width="16" height="16"/>
+    <rect x="350" y="220" width="16" height="16"/>
+    
+    <rect x="130" y="250" width="16" height="16"/>
+    <rect x="190" y="250" width="16" height="16"/>
+    <rect x="250" y="250" width="16" height="16"/>
+    <rect x="280" y="250" width="16" height="16"/>
+    <rect x="350" y="250" width="16" height="16"/>
+    
+    <rect x="160" y="280" width="16" height="16"/>
+    <rect x="220" y="280" width="16" height="16"/>
+    <rect x="280" y="280" width="16" height="16"/>
+    <rect x="320" y="280" width="16" height="16"/>
+    
+    <rect x="220" y="320" width="16" height="16"/>
+    <rect x="250" y="320" width="16" height="16"/>
+    <rect x="280" y="320" width="16" height="16"/>
+    
+    <rect x="220" y="350" width="16" height="16"/>
+    <rect x="280" y="350" width="16" height="16"/>
+    
+    <rect x="220" y="380" width="16" height="16"/>
+    <rect x="250" y="380" width="16" height="16"/>
+    <rect x="280" y="380" width="16" height="16"/>
+  </g>
+  
+  <!-- Garba elements (dancing figures) -->
+  <g fill="#eb6f92" opacity="0.8">
+    <circle cx="350" cy="350" r="20"/>
+    <ellipse cx="350" cy="380" rx="8" ry="20"/>
+    <ellipse cx="335" cy="365" rx="15" ry="8"/>
+    <ellipse cx="365" cy="365" rx="15" ry="8"/>
+  </g>
+</svg>

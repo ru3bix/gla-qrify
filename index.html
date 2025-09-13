@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/style.css" />
+    <title>Garba QRify</title>
+  </head>
+  <body class="bg-rose-pine-base text-rose-pine-text min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="w-full bg-rose-pine-surface shadow-lg">
+      <div class="flex w-full">
+        <button id="venue-tab" class="flex-1 py-8 px-6 bg-rose-pine-surface border-b-2 border-r-2 border-rose-pine-gold text-rose-pine-text font-semibold hover:bg-rose-pine-overlay transition-colors duration-200 focus:outline-none tab-button active">
+          Venue
+        </button>
+        <button id="refreshments-tab" class="flex-1 py-8 px-6 bg-rose-pine-surface border-b-2 border-r-2 border-rose-pine-gold text-rose-pine-text font-semibold hover:bg-rose-pine-overlay transition-colors duration-200 focus:outline-none tab-button">
+          Refreshments
+        </button>
+        <button id="dinner-tab" class="flex-1 py-8 px-6 bg-rose-pine-surface border-b-2 border-rose-pine-gold text-rose-pine-text font-semibold hover:bg-rose-pine-overlay transition-colors duration-200 focus:outline-none tab-button">
+          Dinner
+        </button>
+      </div>
+    </nav>
+    
+    <!-- Main Content Area -->
+    <div class="container mx-auto px-2 sm:px-4 py-4 sm:py-8 flex-1">
+      <!-- QR Scanner/JWT Info Container -->
+      <div class="w-full max-w-4xl mx-auto mb-8">
+        <!-- QR Scanner Section -->
+        <div id="qr-scanner-container">
+          <div id="qr-reader" class="w-full mx-auto bg-rose-pine-gold text-rose-pine-base"></div>
+          <div id="qr-reader-results" class="mt-4 text-center text-rose-pine-subtle text-sm sm:text-base">
+          </div>
+        </div>
+        
+        <!-- JWT Information Display (will replace scanner) -->
+        <div id="jwt-info" class="hidden">
+          <div class="bg-rose-pine-surface p-4 sm:p-6 rounded-lg border border-rose-pine-muted">
+            <h3 class="text-xl sm:text-2xl font-semibold text-rose-pine-text mb-4">Attendee Information</h3>
+            <div id="jwt-details" class="space-y-4"></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Attendee Information Display -->
+      <div id="attendee-info" class="w-full max-w-4xl mx-auto mb-8 hidden">
+        <div class="bg-rose-pine-surface p-4 sm:p-6 rounded-lg border border-rose-pine-muted">
+          <h3 class="text-xl sm:text-2xl font-semibold text-rose-pine-text mb-4">Attendee Information</h3>
+          <div id="attendee-details" class="space-y-2"></div>
+        </div>
+      </div>
+      
+      <!-- Action Result Display -->
+      <div id="action-result" class="w-full max-w-4xl mx-auto hidden">
+        <div class="bg-rose-pine-surface p-4 sm:p-6 rounded-lg border border-rose-pine-muted">
+          <div id="action-content"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Fixed Bottom Buttons for Accept/Reject -->
+    <div id="bottom-action-buttons" class="fixed bottom-0 left-0 right-0 z-1000 hidden">
+      <div class="flex">
+        <button 
+          id="reject-btn" 
+          class="flex-1 py-8 px-6 text-white font-semibold bg-red-600 hover:bg-red-700 transition-all duration-200 disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300"
+          disabled
+        >
+          Reject Entry
+        </button>
+        <button 
+          id="accept-btn" 
+          class="flex-1 py-8 px-6 text-rose-pine-base font-semibold bg-rose-pine-gold hover:bg-opacity-80 transition-all duration-200 disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300"
+          disabled
+        >
+          Accept Entry
+        </button>
+      </div>
+    </div>
+    
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
