@@ -3,6 +3,7 @@ import { jwtDecode } from 'jwt-decode';
 
 // Interface for the JWT claims structure
 interface AttendeeClaims {
+  full_name: string;
   has_dance_access: boolean;
   has_dinner_access: boolean;
   sub: string; // Subject (attendee ID)
@@ -31,20 +32,20 @@ let currentJWTToken = '';
 let currentAttendeeClaims: AttendeeClaims | null = null;
 
 // API Base URL - adjust this based on your backend URL
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Update bottom action buttons state
 function updateBottomActionButtons() {
   const actionButtons = document.getElementById('bottom-action-buttons');
   const acceptBtn = document.getElementById('accept-btn') as HTMLButtonElement;
   const rejectBtn = document.getElementById('reject-btn') as HTMLButtonElement;
-  
+
   if (actionButtons && acceptBtn && rejectBtn) {
     if (hasScannedJWT) {
       actionButtons.classList.remove('hidden');
       acceptBtn.disabled = false;
       rejectBtn.disabled = false;
-      
+
       // Update accept button text based on active tab
       const activeTab = getActiveTab();
       switch (activeTab) {
@@ -73,11 +74,11 @@ function getActiveTab(): string {
   const venueTab = document.getElementById('venue-tab');
   const refreshmentsTab = document.getElementById('refreshments-tab');
   const dinnerTab = document.getElementById('dinner-tab');
-  
+
   if (venueTab?.classList.contains('active')) return 'venue';
   if (refreshmentsTab?.classList.contains('active')) return 'refreshments';
   if (dinnerTab?.classList.contains('active')) return 'dinner';
-  
+
   return 'venue'; // default
 }
 
@@ -85,7 +86,7 @@ function getActiveTab(): string {
 function initializeBottomActionButtons() {
   const acceptBtn = document.getElementById('accept-btn');
   const rejectBtn = document.getElementById('reject-btn');
-  
+
   if (acceptBtn) {
     acceptBtn.addEventListener('click', () => {
       if (hasScannedJWT) {
@@ -93,7 +94,7 @@ function initializeBottomActionButtons() {
       }
     });
   }
-  
+
   if (rejectBtn) {
     rejectBtn.addEventListener('click', () => {
       if (hasScannedJWT) {
@@ -101,7 +102,7 @@ function initializeBottomActionButtons() {
       }
     });
   }
-  
+
   updateBottomActionButtons();
 }
 
@@ -111,27 +112,27 @@ function resetScanner() {
   const jwtInfoElement = document.getElementById('jwt-info');
   const scannerContainer = document.getElementById('qr-scanner-container');
   const actionResult = document.getElementById('action-result');
-  
+
   if (jwtInfoElement) {
     jwtInfoElement.classList.add('hidden');
   }
-  
+
   if (scannerContainer) {
     scannerContainer.classList.remove('hidden');
   }
-  
+
   if (actionResult) {
     actionResult.classList.add('hidden');
   }
-  
+
   hideError();
-  
+
   // Reset JWT state
   hasScannedJWT = false;
   currentJWTToken = '';
   currentAttendeeClaims = null;
   updateBottomActionButtons();
-  
+
   // Restart the scanner
   initializeQRScanner();
 }
@@ -142,11 +143,11 @@ async function handleAcceptEntry() {
     displayActionResult('Error: No valid token found', 'error');
     return;
   }
-  
+
   const activeTab = getActiveTab();
   let endpoint = '';
   let hasRequiredAccess = false;
-  
+
   // Determine endpoint and check permissions based on active tab
   switch (activeTab) {
     case 'venue':
@@ -165,23 +166,23 @@ async function handleAcceptEntry() {
       displayActionResult('Error: Invalid tab selection', 'error');
       return;
   }
-  
+
   // Check if user has required access
   if (!hasRequiredAccess) {
     const accessType = activeTab === 'dinner' ? 'dinner' : 'dance';
     displayActionResult(`Error: Attendee does not have ${accessType} access`, 'error');
     return;
   }
-  
+
   try {
     // Disable buttons during request
     const acceptBtn = document.getElementById('accept-btn') as HTMLButtonElement;
     const rejectBtn = document.getElementById('reject-btn') as HTMLButtonElement;
     if (acceptBtn) acceptBtn.disabled = true;
     if (rejectBtn) rejectBtn.disabled = true;
-    
+
     displayActionResult('Processing entry...', 'loading');
-    
+
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -189,15 +190,15 @@ async function handleAcceptEntry() {
         'Content-Type': 'application/json'
       }
     });
-    
+
     const data: APIResponse = await response.json();
-    
+
     if (response.ok && data.message) {
       displayActionResult(data.message, 'success');
       // Auto-reset after 3 seconds
       setTimeout(() => {
         resetScanner();
-      }, 1000);
+      }, 500);
     } else {
       displayActionResult(data.error || 'Unknown error occurred', 'error');
       // Re-enable buttons on error
@@ -221,23 +222,23 @@ function handleRejectEntry() {
   // Auto-reset after 2 seconds
   setTimeout(() => {
     resetScanner();
-  }, 1000);
+  }, 500);
 }
 
 // Navigation tab functionality
 function initializeNavigation() {
   // Get all tab buttons
   const tabButtons = document.querySelectorAll('.tab-button');
-  
+
   // Add click event listener to each tab button
   tabButtons.forEach(button => {
     button.addEventListener('click', () => {
       // Remove active class from all buttons
       tabButtons.forEach(btn => btn.classList.remove('active'));
-      
+
       // Add active class to the clicked button
       button.classList.add('active');
-      
+
       // Update action buttons when tab changes
       updateBottomActionButtons();
     });
@@ -248,7 +249,7 @@ function initializeNavigation() {
 function initializeQRScanner() {
   const qrReaderElement = document.getElementById('qr-reader');
   const resultsElement = document.getElementById('qr-reader-results');
-  
+
   if (!qrReaderElement || !resultsElement) {
     console.error('QR reader elements not found');
     return;
@@ -276,7 +277,7 @@ function initializeQRScanner() {
   // Success callback
   const onScanSuccess = (decodedText: string, _decodedResult: any) => {
     console.log(`QR Code detected: ${decodedText}`);
-    
+
     // Update results display
     resultsElement.innerHTML = `
       <div class="text-green-400 font-semibold">
@@ -308,9 +309,9 @@ function parseJWT(token: string) {
   try {
     // Decode the JWT without verification
     const decoded = jwtDecode<AttendeeClaims>(token);
-    
+
     console.log('Decoded JWT:', decoded);
-    
+
     // Check if the issuer is "kush"
     if (decoded.iss !== 'kush') {
       displayError(`Invalid issuer: ${decoded.iss}. Expected "kush".`);
@@ -323,11 +324,11 @@ function parseJWT(token: string) {
 
     // Display the JWT information
     displayJWTInfo(decoded, token);
-    
+
     // Mark that we have successfully scanned a JWT
     hasScannedJWT = true;
     updateBottomActionButtons();
-    
+
   } catch (error) {
     console.error('Error parsing JWT:', error);
     displayError('Invalid JWT token format');
@@ -339,7 +340,7 @@ function displayJWTInfo(claims: AttendeeClaims, rawToken: string) {
   const jwtInfoElement = document.getElementById('jwt-info');
   const jwtDetailsElement = document.getElementById('jwt-details');
   const scannerContainer = document.getElementById('qr-scanner-container');
-  
+
   if (!jwtInfoElement || !jwtDetailsElement) {
     console.error('JWT info elements not found');
     return;
@@ -352,6 +353,11 @@ function displayJWTInfo(claims: AttendeeClaims, rawToken: string) {
 
   jwtDetailsElement.innerHTML = `
     <div class="space-y-4">
+      <div class="border-b border-rose-pine-muted pb-3">
+        <span class="text-rose-pine-gold font-semibold text-lg">Attendee Name:</span>
+        <div class="text-rose-pine-text text-2xl font-bold mt-1">${claims.full_name}</div>
+      </div>
+
       <div class="border-b border-rose-pine-muted pb-3">
         <span class="text-rose-pine-gold font-semibold text-lg">Attendee ID:</span>
         <div class="text-rose-pine-text text-2xl font-bold mt-1">${claims.sub}</div>
@@ -390,7 +396,7 @@ function displayJWTInfo(claims: AttendeeClaims, rawToken: string) {
 
   // Show the JWT info section
   jwtInfoElement.classList.remove('hidden');
-  
+
   // Add event listener for scan again button
   const scanAgainBtn = document.getElementById('scan-again-btn');
   if (scanAgainBtn) {
@@ -398,7 +404,7 @@ function displayJWTInfo(claims: AttendeeClaims, rawToken: string) {
       resetScanner();
     });
   }
-  
+
   // No need to scroll - the content appears in the same location
 }
 
@@ -417,7 +423,7 @@ function displayError(message: string) {
         Try Again
       </button>
     `;
-    
+
     // Add event listener for retry button
     const retryBtn = document.getElementById('retry-scan-btn');
     if (retryBtn) {
@@ -432,16 +438,16 @@ function displayError(message: string) {
 function displayActionResult(message: string, type: 'success' | 'error' | 'loading' | 'rejected') {
   const actionResult = document.getElementById('action-result');
   const actionContent = document.getElementById('action-content');
-  
+
   if (!actionResult || !actionContent) {
     console.error('Action result elements not found');
     return;
   }
-  
+
   let bgColor = '';
   let textColor = '';
   let icon = '';
-  
+
   switch (type) {
     case 'success':
       bgColor = 'bg-green-600';
@@ -464,16 +470,16 @@ function displayActionResult(message: string, type: 'success' | 'error' | 'loadi
       icon = '🚫';
       break;
   }
-  
+
   actionContent.innerHTML = `
     <div class="${bgColor} ${textColor} p-6 rounded-lg text-center">
       <div class="text-4xl mb-4">${icon}</div>
       <div class="text-xl font-semibold">${message}</div>
     </div>
   `;
-  
+
   actionResult.classList.remove('hidden');
-  
+
   // Hide JWT info when showing action result
   const jwtInfo = document.getElementById('jwt-info');
   if (jwtInfo) {

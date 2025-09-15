@@ -1,0 +1,11 @@
+# .dockerignore
+node_modules
+dist
+.vite
+.vscode
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+.env
+.env.*      # prevent copying env files unless you want them baked in
