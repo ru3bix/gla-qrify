@@ -79,6 +79,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
           build-args: |
             VITE_API_BASE_URL=${{ github.event_name == 'pull_request' && 'https://staging.api.example.com' || secrets.PROD_API_BASE_URL }}
 
