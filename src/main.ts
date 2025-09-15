@@ -1,6 +1,19 @@
 import { Html5QrcodeScanner } from 'html5-qrcode';
 import { jwtDecode } from 'jwt-decode';
 
+// Register service worker for PWA
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js', { scope: '/' })
+      .then((registration) => {
+        console.log('SW registered: ', registration);
+      })
+      .catch((registrationError) => {
+        console.log('SW registration failed: ', registrationError);
+      });
+  });
+}
+
 // Interface for the JWT claims structure
 interface AttendeeClaims {
   full_name: string;

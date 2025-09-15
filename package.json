@@ -7,11 +7,13 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "generate-icons": "./generate-icons.sh"
+    "generate-icons": "./generate-icons.sh",
+    "build:pwa": "pnpm build && echo 'PWA build complete! Check dist/ for manifest.webmanifest and sw.js'"
   },
   "devDependencies": {
     "typescript": "~5.8.3",
-    "vite": "^7.1.2"
+    "vite": "^7.1.2",
+    "vite-plugin-pwa": "^1.0.3"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.13",
