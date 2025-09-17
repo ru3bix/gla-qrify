@@ -73,19 +73,59 @@ button, a {
 
 /* QR Scanner specific styling */
 #qr-reader {
-  border-radius: 0.5rem;
+  border-radius: 2rem;
   overflow: hidden;
+  @apply text-rose-pine-foam
+}
+
+#qr-reader img {
+  display: none;
+}
+
+#html5-qrcode-button-camera-stop {
+  @apply bg-rose-pine-rose p-4 m-auto rounded-xl text-rose-pine-base;
+}
+
+#html5-qrcode-button-torch {
+  @apply bg-rose-pine-text p-4 m-auto rounded-xl text-rose-pine-base;
+}
+
+#html5-qrcode-button-camera-start {
+  @apply bg-rose-pine-foam p-10 text-2xl m-auto rounded-xl text-rose-pine-base;
+}
+
+#qr-reader #html5-qrcode-input-range-zoom + span {
+  display: none;
+}
+
+#qr-reader #html5-qrcode-anchor-scan-type-change {
+  display: none !important;
+}
+
+#qr-reader #html5-qrcode-input-range-zoom {
+  -webkit-appearance: none !important;  /* Override default CSS styles */
+  appearance: none !important;
+  outline: none !important;
+  @apply !w-full !h-4 !bg-rose-pine-foam !opacity-100;
+}
+
+#qr-reader #html5-qrcode-input-range-zoom::-webkit-slider-thumb {
+  -webkit-appearance: none !important; /* Override default CSS styles */
+  appearance: none !important;
+  width: 20px !important;
+  height: 20px !important;
+  @apply bg-rose-pine-gold !cursor-pointer !border-none !shadow-md;
+  /* background: rgb(var(--rose-pine-rose)) !important; */
+  /* cursor: pointer !important;
+  border-radius: 50% !important;
+  border: none !important;
+  box-shadow: 0 0 2px rgba(0,0,0,0.5) !important; */
 }
 
 #qr-reader video {
-  border-radius: 0.5rem;
   width: 100% !important;
   height: auto !important;
   max-width: none !important;
-}
-
-#qr-reader canvas {
-  border-radius: 0.5rem;
 }
 
 /* QR scanner controls */

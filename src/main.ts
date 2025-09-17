@@ -55,7 +55,6 @@ function updateBottomActionButtons() {
 
   if (actionButtons && acceptBtn && rejectBtn) {
     if (hasScannedJWT) {
-      actionButtons.classList.remove('hidden');
       acceptBtn.disabled = false;
       rejectBtn.disabled = false;
 
@@ -75,7 +74,7 @@ function updateBottomActionButtons() {
           acceptBtn.textContent = 'Accept Entry';
       }
     } else {
-      actionButtons.classList.add('hidden');
+      // actionButtons.classList.add('hidden');
       acceptBtn.disabled = true;
       rejectBtn.disabled = true;
     }
@@ -276,10 +275,11 @@ function initializeQRScanner() {
       height: 280
     },
     aspectRatio: 1.0,
-    disableFlip: false,
     videoConstraints: {
       facingMode: "environment" // Use back camera on mobile
     },
+    showTorchButtonIfSupported: true,
+    showZoomSliderIfSupported: true,
     rememberLastUsedCamera: true,
     supportedScanTypes: []
   };
@@ -293,13 +293,16 @@ function initializeQRScanner() {
 
     // Update results display
     resultsElement.innerHTML = `
-      <div class="text-green-400 font-semibold">
+      <div class="text-rose-pine-foam font-semibold">
         ✓ QR Code Scanned Successfully
       </div>
     `;
 
     // Try to parse as JWT
     parseJWT(decodedText);
+
+    const selectionElement = document.getElementById('html5-qrcode-select-camera') as HTMLSelectElement;
+    selectionElement.parentElement?.classList.add('hidden');
 
     // Stop the scanner after successful scan
     if (qrScanner) {
@@ -311,6 +314,8 @@ function initializeQRScanner() {
   const onScanFailure = (_error: string) => {
     // Don't log scanning errors as they're frequent and normal
     // console.warn(`QR Code scan error: ${error}`);
+      const selectionElement = document.getElementById('html5-qrcode-select-camera') as HTMLSelectElement;
+      selectionElement.parentElement?.classList.add('hidden');
   };
 
   // Start scanning immediately
@@ -378,14 +383,14 @@ function displayJWTInfo(claims: AttendeeClaims, rawToken: string) {
       
       <div class="border-b border-rose-pine-muted pb-3">
         <span class="text-rose-pine-gold font-semibold text-lg">Dance Access:</span>
-        <div class="${claims.has_dance_access ? 'text-green-400' : 'text-red-400'} font-bold text-xl mt-1">
+        <div class="${claims.has_dance_access ? 'text-rose-pine-foam' : 'text-rose-pine-love'} font-bold text-xl mt-1">
           ${claims.has_dance_access ? 'Granted' : 'Denied'}
         </div>
       </div>
       
       <div class="border-b border-rose-pine-muted pb-3">
         <span class="text-rose-pine-gold font-semibold text-lg">Dinner Access:</span>
-        <div class="${claims.has_dinner_access ? 'text-green-400' : 'text-red-400'} font-bold text-xl mt-1">
+        <div class="${claims.has_dinner_access ? 'text-rose-pine-foam' : 'text-rose-pine-love'} font-bold text-xl mt-1">
           ${claims.has_dinner_access ? 'Granted' : 'Denied'}
         </div>
       </div>
@@ -426,8 +431,8 @@ function displayError(message: string) {
   const resultsElement = document.getElementById('qr-reader-results');
   if (resultsElement) {
     resultsElement.innerHTML = `
-      <div class="text-red-400 font-semibold">
-        ❌ ${message}
+      <div class="text-rose-pine-love font-semibold">
+        ${message}
       </div>
       <button 
         id="retry-scan-btn" 
@@ -463,22 +468,22 @@ function displayActionResult(message: string, type: 'success' | 'error' | 'loadi
 
   switch (type) {
     case 'success':
-      bgColor = 'bg-green-600';
+      bgColor = 'bg-rose-pine-pine';
       textColor = 'text-white';
       icon = '✅';
       break;
     case 'error':
-      bgColor = 'bg-red-600';
+      bgColor = 'bg-rose-pine-love';
       textColor = 'text-white';
       icon = '❌';
       break;
     case 'loading':
-      bgColor = 'bg-blue-600';
+      bgColor = 'bg-rose-pine-foam';
       textColor = 'text-white';
       icon = '⏳';
       break;
     case 'rejected':
-      bgColor = 'bg-orange-600';
+      bgColor = 'bg-rose-pine-love';
       textColor = 'text-white';
       icon = '🚫';
       break;
