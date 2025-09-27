@@ -67,6 +67,9 @@ function updateBottomActionButtons() {
         case 'refreshments':
           acceptBtn.textContent = 'Accept Refreshments';
           break;
+        case 'dinner-venue':
+          acceptBtn.textContent = 'Accept Dinner Venue';
+          break;
         case 'dinner':
           acceptBtn.textContent = 'Accept Dinner';
           break;
@@ -85,10 +88,12 @@ function updateBottomActionButtons() {
 function getActiveTab(): string {
   const venueTab = document.getElementById('venue-tab');
   const refreshmentsTab = document.getElementById('refreshments-tab');
+  const dinnerVenueTab = document.getElementById('dinner-venue-tab');
   const dinnerTab = document.getElementById('dinner-tab');
 
   if (venueTab?.classList.contains('active')) return 'venue';
   if (refreshmentsTab?.classList.contains('active')) return 'refreshments';
+  if (dinnerVenueTab?.classList.contains('active')) return 'dinner-venue';
   if (dinnerTab?.classList.contains('active')) return 'dinner';
 
   return 'venue'; // default
@@ -170,6 +175,10 @@ async function handleAcceptEntry() {
       endpoint = `${API_BASE_URL}/refreshment`;
       hasRequiredAccess = currentAttendeeClaims.has_dance_access;
       break;
+    case 'dinner-venue':
+      endpoint = `${API_BASE_URL}/venue/dinner`;
+      hasRequiredAccess = currentAttendeeClaims.has_dinner_access;
+      break;
     case 'dinner':
       endpoint = `${API_BASE_URL}/dinner`;
       hasRequiredAccess = currentAttendeeClaims.has_dinner_access;
@@ -181,7 +190,7 @@ async function handleAcceptEntry() {
 
   // Check if user has required access
   if (!hasRequiredAccess) {
-    const accessType = activeTab === 'dinner' ? 'dinner' : 'dance';
+    const accessType = (activeTab === 'dinner' || activeTab === 'dinner-venue') ? 'dinner' : 'dance';
     displayActionResult(`Error: Attendee does not have ${accessType} access`, 'error');
     return;
   }

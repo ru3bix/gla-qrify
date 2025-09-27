@@ -38,6 +38,12 @@ nav {
   z-index: 1000;
 }
 
+/* Navigation container for equal width tabs */
+nav .flex {
+  display: flex;
+  width: 100%;
+}
+
 /* Smooth transitions for interactive elements */
 button, a {
   transition: all 0.2s ease-in-out;
@@ -47,6 +53,34 @@ button, a {
 .tab-button {
   position: relative;
   transition: all 0.3s ease-in-out;
+  /* Ensure equal width distribution */
+  flex: 1 1 0%;
+  min-width: 0;
+  /* Text hyphenation and wrapping */
+  word-wrap: break-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  overflow-wrap: break-word;
+  /* Text alignment and sizing */
+  text-align: center;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+}
+
+/* Responsive font sizing for tabs */
+@media (min-width: 640px) {
+  .tab-button {
+    font-size: 1rem; /* 16px */
+  }
+}
+
+@media (max-width: 480px) {
+  .tab-button {
+    font-size: 0.75rem; /* 12px */
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
 }
 
 .active {
